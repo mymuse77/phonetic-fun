@@ -211,6 +211,11 @@ const nextQuestion = () => {
 
   questionNumber.value++
   generateQuestion()
+  
+  // 2 秒后自动播放新题目的音频
+  setTimeout(() => {
+    playCurrentAudio()
+  }, 2000)
 }
 
 // 重新开始
