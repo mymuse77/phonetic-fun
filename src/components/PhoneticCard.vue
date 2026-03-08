@@ -97,28 +97,22 @@ const playAudio = async () => {
   }
 
   audio.onerror = async () => {
-    // 音频文件不存在时使用 Web Speech API
+    // 音频文件不存在时使用 Web Speech API - 优化版
     try {
-      // 1. 读音标
+      // 使用优化后的 API：先读单词（更标准），再读音标
       isPlayingPhonetic.value = true
-      await speechService.speak(props.phonetic.symbol)
-      // 播放完成后延迟 0.5 秒再隐藏图标，让用户看清楚
-      await new Promise(resolve => setTimeout(resolve, 500))
-      isPlayingPhonetic.value = false
-      
-      // 2. 停顿 0.3 秒
-      await new Promise(resolve => setTimeout(resolve, 300))
-      
-      // 3. 读单词
-      isPlayingWord.value = true
-      await speechService.speakWord(props.phonetic.example)
-      // 播放完成后延迟 0.8 秒再隐藏图标，让图标显示更明显
+      await speechService.speakPhoneticAndExample(
+        props.phonetic.symbol, 
+        props.phonetic.example
+      )
+      // 播放完成后延迟显示图标
       await new Promise(resolve => setTimeout(resolve, 800))
+      isPlayingPhonetic.value = false
       isPlayingWord.value = false
       
       onSuccess()
     } catch (e) {
-      console.warn('Failed to speak:', props.phonetic.symbol)
+      console.warn('Failed to speak:', props.phonetic.symbol, e)
       onFailure()
     }
   }
@@ -126,28 +120,22 @@ const playAudio = async () => {
   try {
     await audio.play()
   } catch {
-    // 音频无法播放时使用 Web Speech API
+    // 音频无法播放时使用 Web Speech API - 优化版
     try {
-      // 1. 读音标
+      // 使用优化后的 API：先读单词（更标准），再读音标
       isPlayingPhonetic.value = true
-      await speechService.speak(props.phonetic.symbol)
-      // 播放完成后延迟 0.5 秒再隐藏图标，让用户看清楚
-      await new Promise(resolve => setTimeout(resolve, 500))
-      isPlayingPhonetic.value = false
-      
-      // 2. 停顿 0.3 秒
-      await new Promise(resolve => setTimeout(resolve, 300))
-      
-      // 3. 读单词
-      isPlayingWord.value = true
-      await speechService.speakWord(props.phonetic.example)
-      // 播放完成后延迟 0.8 秒再隐藏图标，让图标显示更明显
+      await speechService.speakPhoneticAndExample(
+        props.phonetic.symbol, 
+        props.phonetic.example
+      )
+      // 播放完成后延迟显示图标
       await new Promise(resolve => setTimeout(resolve, 800))
+      isPlayingPhonetic.value = false
       isPlayingWord.value = false
       
       onSuccess()
     } catch (e) {
-      console.warn('Failed to speak:', props.phonetic.symbol)
+      console.warn('Failed to speak:', props.phonetic.symbol, e)
       onFailure()
     }
   }
