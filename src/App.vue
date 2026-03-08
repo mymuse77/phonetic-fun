@@ -106,12 +106,16 @@ onUnmounted(() => {
   <div class="app">
     <header class="header">
       <h1 v-if="currentPage === 'home'" class="title">Phonetic Fun</h1>
-      <button v-else class="back-btn" @click="goHome">
-        <span class="back-icon">←</span>
-        返回
-      </button>
+      <span v-else class="header-spacer"></span>
       <StarCounter />
     </header>
+
+    <!-- 悬浮返回按钮 - 固定在左侧中间 -->
+    <button v-if="currentPage !== 'home'" class="floating-back-btn" @click="goHome" title="返回">
+      <svg class="back-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+    </button>
 
     <main class="main-content">
       <!-- 首页 -->
@@ -260,26 +264,51 @@ onUnmounted(() => {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.back-btn {
+.header-spacer {
+  width: 60px;
+}
+
+/* 悬浮返回按钮 - 固定在左侧中间 */
+.floating-back-btn {
+  position: fixed;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4),
+              0 6px 20px rgba(118, 75, 162, 0.3);
+  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  border-radius: 25px;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  padding: 0;
+}
+
+.floating-back-btn:hover {
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5),
+              0 8px 25px rgba(118, 75, 162, 0.4);
+}
+
+.floating-back-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.back-arrow {
+  width: 28px;
+  height: 28px;
   color: white;
-  font-size: 16px;
-  cursor: pointer;
-  transition: all 0.3s;
+  transition: transform 0.3s;
 }
 
-.back-btn:active {
-  transform: scale(0.95);
-}
-
-.back-icon {
-  font-size: 20px;
+.floating-back-btn:hover .back-arrow {
+  transform: translateX(-3px);
 }
 
 .main-content {

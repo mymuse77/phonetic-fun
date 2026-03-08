@@ -23,6 +23,24 @@ const emit = defineEmits(['back'])
 const gameStore = useGameStore()
 const playerStore = usePlayerStore()
 
+// 滚动控制
+const scrollToTop = () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
+}
+
+// 处理返回点击
+const handleBack = () => {
+  // 先滚动到顶部
+  scrollToTop()
+  // 延迟一点再返回，让滚动动画完成
+  setTimeout(() => {
+    emit('back')
+  }, 300)
+}
+
 // 游戏状态
 const currentPhonetic = ref(null)
 const options = ref([])
@@ -299,8 +317,8 @@ const isGameOver = computed(() => questionNumber.value > totalQuestions)
 
     <!-- 游戏进行中 -->
     <div v-else class="game-content">
-      <!-- 返回按钮 - 悬浮在左上角 -->
-      <button class="back-float-btn" @click="emit('back')" title="返回">
+      <!-- 返回按钮 - 悬浮在左侧中间 -->
+      <button class="back-float-btn" @click="handleBack" title="返回">
         <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
