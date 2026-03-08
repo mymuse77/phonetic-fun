@@ -711,11 +711,12 @@ const isGameOver = computed(() => questionNumber.value > totalQuestions)
   transform: scale(0.98);
 }
 
-/* 悬浮返回按钮 - 左上角 */
+/* 悬浮返回按钮 - 左侧中间，垂直居中 */
 .back-float-btn {
   position: fixed;
   left: 20px;
-  top: 20px;
+  top: 50%;
+  transform: translateY(-50%);
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -732,12 +733,12 @@ const isGameOver = computed(() => questionNumber.value > totalQuestions)
 }
 
 .back-float-btn:hover {
-  transform: scale(1.1);
+  transform: translateY(-50%) scale(1.1);
   box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
 }
 
 .back-float-btn:active {
-  transform: scale(0.95);
+  transform: translateY(-50%) scale(0.95);
 }
 
 .back-icon {
@@ -755,11 +756,16 @@ const isGameOver = computed(() => questionNumber.value > totalQuestions)
 @media (max-width: 768px) {
   .back-float-btn {
     left: 10px;
-    top: 10px;
+    top: 50%;
+    transform: translateY(-50%);
     width: 45px;
     height: 45px;
   }
-  
+
+  .back-float-btn:hover {
+    transform: translateY(-50%) scale(1.1);
+  }
+
   .back-icon {
     width: 24px;
     height: 24px;
