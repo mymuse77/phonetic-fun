@@ -299,6 +299,13 @@ const isGameOver = computed(() => questionNumber.value > totalQuestions)
 
     <!-- 游戏进行中 -->
     <div v-else class="game-content">
+      <!-- 返回按钮 - 悬浮在左侧 -->
+      <button class="back-float-btn" @click="emit('back')" title="返回">
+        <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    
       <!-- 游戏头部 -->
       <div class="game-header">
         <div class="question-counter">
@@ -702,5 +709,60 @@ const isGameOver = computed(() => questionNumber.value > totalQuestions)
 
 .back-btn:active {
   transform: scale(0.98);
+}
+
+/* 悬浮返回按钮 */
+.back-float-btn {
+  position: fixed;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  padding: 0;
+}
+
+.back-float-btn:hover {
+  transform: translateY(-50%) scale(1.1);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+.back-float-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+.back-icon {
+  width: 28px;
+  height: 28px;
+  color: white;
+  transition: transform 0.3s ease;
+}
+
+.back-float-btn:hover .back-icon {
+  transform: translateX(-3px);
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+  .back-float-btn {
+    left: 10px;
+    width: 45px;
+    height: 45px;
+  }
+  
+  .back-icon {
+    width: 24px;
+    height: 24px;
+  }
 }
 </style>
