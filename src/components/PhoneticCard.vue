@@ -99,15 +99,19 @@ const playAudio = async () => {
   audio.onerror = async () => {
     // 音频文件不存在时使用 Web Speech API - 优化版
     try {
-      // 使用优化后的 API：先读单词（更标准），再读音标
+      // 1. 读音标 - 显示图标在音标后
       isPlayingPhonetic.value = true
-      await speechService.speakPhoneticAndExample(
-        props.phonetic.symbol, 
-        props.phonetic.example
-      )
-      // 播放完成后延迟显示图标
-      await new Promise(resolve => setTimeout(resolve, 800))
+      await speechService.speak(props.phonetic.symbol, props.phonetic.example)
+      await new Promise(resolve => setTimeout(resolve, 300))
       isPlayingPhonetic.value = false
+      
+      // 2. 停顿
+      await new Promise(resolve => setTimeout(resolve, 500))
+      
+      // 3. 读单词 - 显示图标在单词后
+      isPlayingWord.value = true
+      await speechService.speakWord(props.phonetic.example)
+      await new Promise(resolve => setTimeout(resolve, 800))
       isPlayingWord.value = false
       
       onSuccess()
@@ -122,15 +126,19 @@ const playAudio = async () => {
   } catch {
     // 音频无法播放时使用 Web Speech API - 优化版
     try {
-      // 使用优化后的 API：先读单词（更标准），再读音标
+      // 1. 读音标 - 显示图标在音标后
       isPlayingPhonetic.value = true
-      await speechService.speakPhoneticAndExample(
-        props.phonetic.symbol, 
-        props.phonetic.example
-      )
-      // 播放完成后延迟显示图标
-      await new Promise(resolve => setTimeout(resolve, 800))
+      await speechService.speak(props.phonetic.symbol, props.phonetic.example)
+      await new Promise(resolve => setTimeout(resolve, 300))
       isPlayingPhonetic.value = false
+      
+      // 2. 停顿
+      await new Promise(resolve => setTimeout(resolve, 500))
+      
+      // 3. 读单词 - 显示图标在单词后
+      isPlayingWord.value = true
+      await speechService.speakWord(props.phonetic.example)
+      await new Promise(resolve => setTimeout(resolve, 800))
       isPlayingWord.value = false
       
       onSuccess()
